@@ -158,20 +158,16 @@ public class CustomTableView extends View {
     }
 
     public Position getPositionFromLocation(float x, float y) {
-        int paddingTop = getContext().getResources().getDimensionPixelSize(R.dimen.table_default_margin_top);
-        if (x < paddingTop) {
-            return null;
-        }
 
         if (x > getWidth()) {
             return null;
         }
 
-        if (y > getHeight() - paddingTop) {
+        if (y > getHeight()) {
             return null;
         }
 
-        int yPosition = (int) (y - paddingTop) / (mItemHeight + mItemMargin);
+        int yPosition = (int) y / (mItemHeight + mItemMargin);
 
         int xPosition = (int) (x / (mItemWidth + mItemMargin));
 
