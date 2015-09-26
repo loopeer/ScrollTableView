@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <color name="table_text_select_color">@android:color/white</color>
+  <color name="table_text_normal_color">#2B2B2B</color>
+  <color name="table_text_unable_color">#CBCBCB</color>
+  <color name="table_item_bg_normal_color">@android:color/white</color>
+  <color name="table_item_bg_select_color">#D80C18</color>
+  <color name="table_divider_color">#DCDCDC</color>
+
+  <color name="table_text_secondary_color">#727272</color>
+
+</resources>
