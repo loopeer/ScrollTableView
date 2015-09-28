@@ -1,6 +1,7 @@
 package com.loopeer.android.librarys.scrolltable;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
@@ -11,8 +12,7 @@ import java.util.ArrayList;
 public class TopTitleView extends View {
 
     private Paint mPaintTextNormal;
-    private int mTextNormalColor;
-    private int mItemIndicatorColor;
+    private int mTextTopTitleColor;
     private float mTextNormal;
 
     private int mItemHeight;
@@ -51,12 +51,11 @@ public class TopTitleView extends View {
     }
 
     private void initPaint() {
-        mTextNormalColor = ContextCompat.getColor(getContext(), R.color.table_text_secondary_color);
-        mItemIndicatorColor = ContextCompat.getColor(getContext(), R.color.table_divider_color);
+        mTextTopTitleColor = ContextCompat.getColor(getContext(), R.color.table_text_secondary_color);
         mTextNormal = getResources().getDimension(R.dimen.table_default_title_size);
 
         mPaintTextNormal = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaintTextNormal.setColor(mTextNormalColor);
+        mPaintTextNormal.setColor(mTextTopTitleColor);
         mPaintTextNormal.setTextSize(mTextNormal);
     }
 
@@ -105,9 +104,44 @@ public class TopTitleView extends View {
         invalidate();
     }
 
+    public void setPlaceHeight(int height) {
+        mItemPlaceHeight = height;
+        invalidate();
+    }
+
     public void setItemWidth(int width) {
         mItemWidth = width;
         invalidate();
     }
 
+    public void setItemMargin(int margin) {
+        mItemMargin = margin;
+        invalidate();
+    }
+
+    public void setTextTopTitleColor(int color) {
+        mTextTopTitleColor = color;
+        mPaintTextNormal.setColor(mTextTopTitleColor);
+        invalidate();
+    }
+
+    public void setPaintTextNormalSize(float size) {
+        mTextNormal = size;
+        mPaintTextNormal.setTextSize(mTextNormal);
+        invalidate();
+    }
+
+    public void setUpAttrs(Context context, AttributeSet attrs, int defStyleAttr) {
+        if (attrs == null) return;
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ScrollTableView, defStyleAttr, 0);
+        if (a == null) return;
+
+        setItemHeight(a.getDimensionPixelSize(R.styleable.ScrollTableView_itemHeight, mItemHeight));
+        setItemWidth(a.getDimensionPixelSize(R.styleable.ScrollTableView_itemWidth, mItemWidth));
+        setItemMargin(a.getDimensionPixelSize(R.styleable.ScrollTableView_dataMargin, mItemMargin));
+        setPlaceHeight(a.getDimensionPixelSize(R.styleable.ScrollTableView_topPlaceHeight, mItemPlaceHeight));
+        setTextTopTitleColor(a.getColor(R.styleable.ScrollTableView_textTopTitleColor, mTextTopTitleColor));
+        setPaintTextNormalSize(a.getDimension(R.styleable.ScrollTableView_textTitleSize, mTextNormal));
+
+    }
 }

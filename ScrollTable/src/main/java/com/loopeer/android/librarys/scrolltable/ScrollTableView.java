@@ -1,6 +1,7 @@
 package com.loopeer.android.librarys.scrolltable;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
@@ -13,8 +14,10 @@ public class ScrollTableView extends LinearLayout implements CustomTableView.OnP
     private LeftTitleView headerVertical;
     private TopTitleView headerHorizontal;
     private CustomTableView contentView;
-    private static final String[] topTitles = new String[] {"场地一", "场地二", "场地三", "场地四", "场地五", "场地六", "场地七", "场地八", "场地九", "场地十", "场地十一"};
     private ArrayList<Position> selectPositions;
+    private ArrayList<String> topTitles;
+    private ArrayList<String> leftTitles;
+    private ArrayList<ArrayList<String>> datas;
 
     public ScrollTableView(Context context) {
         this(context, null);
@@ -34,6 +37,17 @@ public class ScrollTableView extends LinearLayout implements CustomTableView.OnP
         setUpView();
         setUpData();
         selectPositions = new ArrayList<>();
+
+
+        if (attrs == null) return;
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ScrollTableView, defStyleAttr, 0);
+        if (a == null) return;
+
+        headerVertical.setUpAttrs(context, attrs, defStyleAttr);
+        headerHorizontal.setUpAttrs(context, attrs, defStyleAttr);
+        contentView.setUpAttrs(context, attrs, defStyleAttr);
+
+        a.recycle();
     }
 
     private void setUpView() {
@@ -46,32 +60,42 @@ public class ScrollTableView extends LinearLayout implements CustomTableView.OnP
         scrollHeaderHorizontal.setIScroller(scrollHorizontal);
     }
 
+    public LeftTitleView getLeftTitleView() {
+        return headerVertical;
+    }
+
+    public TopTitleView getTopTitleView() {
+        return headerHorizontal;
+    }
+
+    public CustomTableView getContentView() {
+        return contentView;
+    }
 
     private void setUpData() {
-        ArrayList<String> leftTitles = createLeftTitle();
-        ArrayList<String> topTitles = createTopTitles();
-        headerVertical.updateTitles(leftTitles);
-        headerHorizontal.updateTitles(topTitles);
+        leftTitles = new ArrayList<>();
+        topTitles = new ArrayList<>();
+        datas = new ArrayList<>();
         contentView.setRowAndColumn(leftTitles.size(), topTitles.size());
         contentView.setOnPositionChangeListener(this);
     }
 
-    private ArrayList<String> createTopTitles() {
-        ArrayList<String> results = new ArrayList<>();
-        for (String string : topTitles) {
-            results.add(string);
-        }
-        return results;
+    public void setDatas(ArrayList<String> topTitlesData, ArrayList<String> leftTitlesData, ArrayList<ArrayList<String>> itemData) {
+        topTitles.clear();
+        leftTitles.clear();
+        datas.clear();
+        topTitles.addAll(topTitlesData);
+        leftTitles.addAll(leftTitlesData);
+        datas.addAll(itemData);
+        updateView();
     }
 
-    private ArrayList<String> createLeftTitle() {
-        ArrayList<String> results = new ArrayList<>();
-        for (int i = 9; i < 23; i++) {
-            results.add(i + ":00");
-        }
-        return results;
+    private void updateView() {
+        headerVertical.updateTitles(leftTitles);
+        headerHorizontal.updateTitles(topTitles);
+        contentView.setRowAndColumn(leftTitles.size(), topTitles.size());
+        contentView.setDatas(datas);
     }
-
 
     @Override
     public void onPositionClick(Position position) {

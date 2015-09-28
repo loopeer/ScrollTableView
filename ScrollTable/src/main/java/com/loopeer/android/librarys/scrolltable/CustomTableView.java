@@ -1,6 +1,7 @@
 package com.loopeer.android.librarys.scrolltable;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
@@ -25,6 +26,7 @@ public class CustomTableView extends View {
     private int mItemHeight;
     private int mItemWidth;
     private int mItemMargin;
+    private ArrayList<ArrayList<String>> datas;
 
     private int row = 20;
     private int column = 10;
@@ -50,6 +52,7 @@ public class CustomTableView extends View {
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         initData();
         initPaint();
+        datas = new ArrayList<>();
         selectPositions = new ArrayList<>();
     }
 
@@ -102,7 +105,7 @@ public class CustomTableView extends View {
                 float bottom = top + mItemHeight;
                 canvas.drawRect(left, top, right, bottom, mPaintItemBg);
 
-                String content = "￥" + "35.9";
+                String content = getShowData(rowIndex, columnIndex);
                 Paint.FontMetrics fontMetrics = mPaintTextNormal.getFontMetrics();
                 float fontHeight = fontMetrics.bottom - fontMetrics.top;
                 float textWidth = mPaintTextNormal.measureText(content);
@@ -111,6 +114,14 @@ public class CustomTableView extends View {
 
                 canvas.drawText(content, x, y, mPaintTextNormal);
             }
+        }
+    }
+
+    private String getShowData(int rowIndex, int columnIndex) {
+        if (datas.size() > rowIndex) {
+            return datas.get(rowIndex).size() > columnIndex ? datas.get(rowIndex).get(columnIndex) : "";
+        } else {
+            return "";
         }
     }
 
@@ -127,6 +138,14 @@ public class CustomTableView extends View {
     public void setRowAndColumn(int row, int column) {
         this.row = row;
         this.column = column;
+        invalidate();
+    }
+
+    public void setDatas(ArrayList<ArrayList<String>> data) {
+        datas.clear();
+        for (ArrayList<String> rowArrayString : data) {
+            datas.add(rowArrayString);
+        }
         invalidate();
     }
 
@@ -187,5 +206,46 @@ public class CustomTableView extends View {
     public void setItemWidth(int width) {
         mItemWidth = width;
         invalidate();
+    }
+
+    public void setItemMargin(int margin) {
+        mItemMargin = margin;
+        invalidate();
+    }
+
+    public void setColors(int... colors) {
+        if (colors.length > 0) mTextNormalColor = colors[0];
+        if (colors.length > 1) mTextSelectColor = colors[1];
+        if (colors.length > 2) mTextUnableColor = colors[2];
+        invalidate();
+    }
+
+    public void setTextNormalColor(int color) {
+        mTextNormalColor = color;
+        invalidate();
+    }
+
+    public void setTextSelectColor(int color) {
+        mTextSelectColor = color;
+        invalidate();
+    }
+
+    public void setTextUnableColor(int color) {
+        mTextUnableColor = color;
+        invalidate();
+    }
+
+    public void setUpAttrs(Context context, AttributeSet attrs, int defStyleAttr) {
+        if (attrs == null) return;
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ScrollTableView, defStyleAttr, 0);
+        if (a == null) return;
+
+        setItemHeight(a.getDimensionPixelSize(R.styleable.ScrollTableView_itemHeight, mItemHeight));
+        setItemWidth(a.getDimensionPixelSize(R.styleable.ScrollTableView_itemWidth, mItemWidth));
+        setItemMargin(a.getDimensionPixelSize(R.styleable.ScrollTableView_dataMargin, mItemMargin));
+        setTextNormalColor(a.getColor(R.styleable.ScrollTableView_textNormalColor, mTextNormalColor));
+        setTextSelectColor(a.getColor(R.styleable.ScrollTableView_textSelectColor, mTextSelectColor));
+        setTextUnableColor(a.getColor(R.styleable.ScrollTableView_textUnableColor, mTextUnableColor));
+
     }
 }

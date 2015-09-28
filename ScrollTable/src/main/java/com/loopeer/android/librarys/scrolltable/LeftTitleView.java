@@ -1,6 +1,7 @@
 package com.loopeer.android.librarys.scrolltable;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
@@ -16,9 +17,9 @@ public class LeftTitleView extends View {
     private Paint mPaintItemIndicatorCircle;
     private Paint mPaintItemIndicatorLine;
 
-    private int mTextNormalColor;
+    private int mTextLeftTitleColor;
     private int mItemIndicatorColor;
-    private float mTextNormal;
+    private float mTextTitleSize;
 
     private int mItemHeight;
     private int mItemWidth;
@@ -58,13 +59,13 @@ public class LeftTitleView extends View {
     }
 
     private void initPaint() {
-        mTextNormalColor = ContextCompat.getColor(getContext(), R.color.table_text_secondary_color);
+        mTextLeftTitleColor = ContextCompat.getColor(getContext(), R.color.table_text_secondary_color);
         mItemIndicatorColor = ContextCompat.getColor(getContext(), R.color.table_divider_color);
-        mTextNormal = getResources().getDimension(R.dimen.table_default_title_size);
+        mTextTitleSize = getResources().getDimension(R.dimen.table_default_title_size);
 
         mPaintTextNormal = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaintTextNormal.setColor(mTextNormalColor);
-        mPaintTextNormal.setTextSize(mTextNormal);
+        mPaintTextNormal.setColor(mTextLeftTitleColor);
+        mPaintTextNormal.setTextSize(mTextTitleSize);
 
         mPaintItemIndicatorCircle = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaintItemIndicatorCircle.setColor(mItemIndicatorColor);
@@ -135,4 +136,53 @@ public class LeftTitleView extends View {
         invalidate();
     }
 
+    public void setItemMargin(int margin) {
+        mItemMargin = margin;
+        invalidate();
+    }
+
+    public void setTextLeftTitleColor(int color) {
+        mTextLeftTitleColor = color;
+        mPaintTextNormal.setColor(mTextLeftTitleColor);
+        invalidate();
+    }
+
+    public void setItemIndicatorColor(int color) {
+        mItemIndicatorColor = color;
+        mPaintItemIndicatorLine.setColor(mItemIndicatorColor);
+        mPaintItemIndicatorCircle.setColor(mItemIndicatorColor);
+        invalidate();
+    }
+
+    public void setIndicatorCircleRadius(int radius) {
+        mItemIndicatorCircleRadius = radius;
+        invalidate();
+    }
+
+    public void setItemIndicatorLineWidth(int width) {
+        mItemIndicatorLineWidth = width;
+        invalidate();
+    }
+
+    public void setPaintTextNormalSize(float size) {
+        mTextTitleSize = size;
+        mPaintTextNormal.setTextSize(mTextTitleSize);
+        invalidate();
+    }
+
+    public void setUpAttrs(Context context, AttributeSet attrs, int defStyleAttr) {
+        if (attrs == null) return;
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ScrollTableView, defStyleAttr, 0);
+        if (a == null) return;
+
+        setItemHeight(a.getDimensionPixelSize(R.styleable.ScrollTableView_itemHeight, mItemHeight));
+        setItemWidth(a.getDimensionPixelSize(R.styleable.ScrollTableView_itemWidth, mItemWidth));
+        setItemMargin(a.getDimensionPixelSize(R.styleable.ScrollTableView_dataMargin, mItemMargin));
+        setTextLeftTitleColor(a.getColor(R.styleable.ScrollTableView_textLeftTitleColor, mTextLeftTitleColor));
+        setItemIndicatorColor(a.getColor(R.styleable.ScrollTableView_itemIndicatorColor, mItemIndicatorColor));
+        setIndicatorCircleRadius(a.getDimensionPixelSize(R.styleable.ScrollTableView_itemIndicatorCircleRadius, mItemIndicatorCircleRadius));
+        setItemIndicatorLineWidth(a.getDimensionPixelSize(R.styleable.ScrollTableView_itemIndicatorLineWidth, mItemIndicatorLineWidth));
+        setPaintTextNormalSize(a.getDimension(R.styleable.ScrollTableView_textTitleSize, mTextTitleSize));
+
+    }
 }

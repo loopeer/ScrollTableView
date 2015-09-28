@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ScrollTableView">
+        <attr name="dataMargin" format="dimension"/>
+        <attr name="itemHeight" format="dimension"/>
+        <attr name="itemWidth" format="dimension"/>
+        <attr name="topPlaceHeight" format="dimension"/>
+        <attr name="itemIndicatorCircleRadius" format="dimension"/>
+        <attr name="itemIndicatorLineWidth" format="dimension"/>
+        <attr name="textTitleSize" format="dimension"/>
+        <attr name="textLeftTitleColor" format="color"/>
+        <attr name="textTopTitleColor" format="color"/>
+        <attr name="itemIndicatorColor" format="color"/>
+        <attr name="textNormalColor" format="color"/>
+        <attr name="textSelectColor" format="color"/>
+        <attr name="textUnableColor" format="color"/>
+        <attr name="itemBgNormalColor" format="color"/>
+        <attr name="itemBgSelectColor" format="color"/>
+    </declare-styleable>
+
+</resources>
