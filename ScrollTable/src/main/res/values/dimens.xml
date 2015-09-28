@@ -8,5 +8,10 @@
   <dimen name="table_default_margin_top">12dp</dimen>
   <dimen name="table_top_title_place">48dp</dimen>
 
+  <dimen name="table_item_height">30dp</dimen>
+  <dimen name="table_item_width">80dp</dimen>
+  <dimen name="table_item_margin">2dp</dimen>
+  <dimen name="table_header_circle_radius">4dp</dimen>
+  <dimen name="table_header_indicator_width">8dp</dimen>
 
 </resources>

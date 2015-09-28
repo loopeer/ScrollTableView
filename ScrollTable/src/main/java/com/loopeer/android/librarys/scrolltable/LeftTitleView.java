@@ -12,12 +12,6 @@ import java.util.ArrayList;
 
 public class LeftTitleView extends View {
 
-    private static final int DEFAULT_HEIGHT = 100;
-    private static final int DEFAULT_WIDTH = 240;
-    private static final int DEFAULT_MARGIN = 4;
-    private static final int DEFAULT_CIRCLE_RADIUS = 10;
-    private static final int DEFAULT_INDICATOR_LINE_WIDTH = 20;
-
     private Paint mPaintTextNormal;
     private Paint mPaintItemIndicatorCircle;
     private Paint mPaintItemIndicatorLine;
@@ -26,12 +20,12 @@ public class LeftTitleView extends View {
     private int mItemIndicatorColor;
     private float mTextNormal;
 
-    private int mItemHeight = DEFAULT_HEIGHT;
-    private int mItemWidth = DEFAULT_WIDTH;
-    private int mItemMargin = DEFAULT_MARGIN;
+    private int mItemHeight;
+    private int mItemWidth;
+    private int mItemMargin;
     private int row;
-    private int mItemIndicatorCircleRadius = DEFAULT_CIRCLE_RADIUS;
-    private int mItemIndicatorLineWidth = DEFAULT_INDICATOR_LINE_WIDTH;
+    private int mItemIndicatorCircleRadius;
+    private int mItemIndicatorLineWidth;
 
     ArrayList<String> titles;
 
@@ -50,8 +44,17 @@ public class LeftTitleView extends View {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+        initData();
         initPaint();
         titles = new ArrayList<>();
+    }
+
+    private void initData() {
+        mItemHeight =  getResources().getDimensionPixelSize(R.dimen.table_item_height);
+        mItemWidth = getResources().getDimensionPixelSize(R.dimen.table_item_width);
+        mItemMargin = getResources().getDimensionPixelSize(R.dimen.table_item_margin);
+        mItemIndicatorCircleRadius = getResources().getDimensionPixelSize(R.dimen.table_header_circle_radius);
+        mItemIndicatorLineWidth = getResources().getDimensionPixelSize(R.dimen.table_header_indicator_width);
     }
 
     private void initPaint() {
@@ -104,9 +107,9 @@ public class LeftTitleView extends View {
                     mItemIndicatorCircleRadius, mPaintItemIndicatorCircle);
 
             canvas.drawRect(mItemWidth - mItemIndicatorLineWidth,
-                    rowIndex * (mItemHeight + mItemMargin) + getResources().getDimension(R.dimen.table_default_margin_top) - mItemMargin / 2 - 2 + mItemMargin,
+                    rowIndex * (mItemHeight + mItemMargin) + getResources().getDimension(R.dimen.table_default_margin_top) - mItemMargin / 2 - mItemMargin / 2 + mItemMargin,
                     mItemWidth,
-                    rowIndex * (mItemHeight + mItemMargin) + getResources().getDimension(R.dimen.table_default_margin_top) - mItemMargin / 2 + 2 + mItemMargin,
+                    rowIndex * (mItemHeight + mItemMargin) + getResources().getDimension(R.dimen.table_default_margin_top) - mItemMargin / 2 + mItemMargin / 2 + mItemMargin,
                     mPaintItemIndicatorLine);
         }
     }
@@ -120,6 +123,16 @@ public class LeftTitleView extends View {
     private void updateView() {
         invalidate();
         row = titles.size();
+    }
+
+    public void setItemHeight(int height) {
+        mItemHeight = height;
+        invalidate();
+    }
+
+    public void setItemWidth(int width) {
+        mItemWidth = width;
+        invalidate();
     }
 
 }

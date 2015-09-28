@@ -10,19 +10,15 @@ import java.util.ArrayList;
 
 public class TopTitleView extends View {
 
-    private static final int DEFAULT_HEIGHT = 100;
-    private static final int DEFAULT_WIDTH = 240;
-    private static final int DEFAULT_MARGIN = 4;
-
     private Paint mPaintTextNormal;
     private int mTextNormalColor;
     private int mItemIndicatorColor;
     private float mTextNormal;
 
-    private int mItemHeight = DEFAULT_HEIGHT;
-    private int mItemPlaceHeight = DEFAULT_HEIGHT;
-    private int mItemWidth = DEFAULT_WIDTH;
-    private int mItemMargin = DEFAULT_MARGIN;
+    private int mItemHeight;
+    private int mItemPlaceHeight;
+    private int mItemWidth;
+    private int mItemMargin;
     private int column;
 
     private ArrayList<String> titles;
@@ -42,8 +38,16 @@ public class TopTitleView extends View {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+        initData();
         initPaint();
         titles = new ArrayList<>();
+    }
+
+    private void initData() {
+        mItemHeight =  getResources().getDimensionPixelSize(R.dimen.table_item_height);
+        mItemWidth = getResources().getDimensionPixelSize(R.dimen.table_item_width);
+        mItemMargin = getResources().getDimensionPixelSize(R.dimen.table_item_margin);
+        mItemPlaceHeight = getResources().getDimensionPixelSize(R.dimen.table_top_title_place);
     }
 
     private void initPaint() {
@@ -54,8 +58,6 @@ public class TopTitleView extends View {
         mPaintTextNormal = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaintTextNormal.setColor(mTextNormalColor);
         mPaintTextNormal.setTextSize(mTextNormal);
-
-        mItemPlaceHeight = getResources().getDimensionPixelSize(R.dimen.table_top_title_place);
     }
 
     @Override
@@ -96,6 +98,16 @@ public class TopTitleView extends View {
     private void updateView() {
         invalidate();
         column = titles.size();
+    }
+
+    public void setItemHeight(int height) {
+        mItemHeight = height;
+        invalidate();
+    }
+
+    public void setItemWidth(int width) {
+        mItemWidth = width;
+        invalidate();
     }
 
 }

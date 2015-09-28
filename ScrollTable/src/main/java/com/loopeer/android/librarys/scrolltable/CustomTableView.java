@@ -5,18 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
 import java.util.ArrayList;
 
 public class CustomTableView extends View {
     private static final String TAG = "CustomTableView";
-
-    private static final int DEFAULT_HEIGHT = 100;
-    private static final int DEFAULT_WIDTH = 240;
-    private static final int DEFAULT_MARGIN = 4;
 
     private Paint mPaintTextNormal;
     private Paint mPaintItemBg;
@@ -28,9 +22,9 @@ public class CustomTableView extends View {
     private int mItemBgSelectColor;
     private float mTextNormal;
 
-    private int mItemHeight = DEFAULT_HEIGHT;
-    private int mItemWidth = DEFAULT_WIDTH;
-    private int mItemMargin = DEFAULT_MARGIN;
+    private int mItemHeight;
+    private int mItemWidth;
+    private int mItemMargin;
 
     private int row = 20;
     private int column = 10;
@@ -54,8 +48,15 @@ public class CustomTableView extends View {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+        initData();
         initPaint();
         selectPositions = new ArrayList<>();
+    }
+
+    private void initData() {
+        mItemHeight =  getResources().getDimensionPixelSize(R.dimen.table_item_height);
+        mItemWidth = getResources().getDimensionPixelSize(R.dimen.table_item_width);
+        mItemMargin = getResources().getDimensionPixelSize(R.dimen.table_item_margin);
     }
 
     private void initPaint() {
@@ -176,5 +177,15 @@ public class CustomTableView extends View {
 
     public interface OnPositionClickListener {
         void onPositionClick(Position position);
+    }
+
+    public void setItemHeight(int height) {
+        mItemHeight = height;
+        invalidate();
+    }
+
+    public void setItemWidth(int width) {
+        mItemWidth = width;
+        invalidate();
     }
 }
