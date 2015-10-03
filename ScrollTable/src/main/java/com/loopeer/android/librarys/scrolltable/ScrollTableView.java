@@ -106,4 +106,5 @@ public class ScrollTableView extends LinearLayout implements CustomTableView.OnP
         }
         contentView.setSelectPositions(selectPositions);
     }
+
 }
